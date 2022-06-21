@@ -1,0 +1,233 @@
+
+body{
+    background: #f5f5f5;
+    font:  "GalaxiePolaris-Book", sans-serif;;
+}
+
+
+.top-container{
+    width: 100vh;
+    background: #F86161;
+    color: #f5f5f5;
+}
+
+.banner-text{
+    color: #f5f5f5;
+}
+
+
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+.logo{
+    margin: 0px 25px;
+}
+
+
+
+
+
+
+#courses-hero{
+    background: linear-gradient(transparent, transparent),url(./bgImg.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    color: #f5f5f5;
+}
+
+
+.body-container{
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+
+.ul-content{
+    display: flex;
+    justify-content: center;
+    margin-right: 50px;
+}
+
+a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+}
+.li-items{
+    display: flex;
+    justify-self: center;
+     margin: 30px;
+    padding: 5px;
+    text-decoration: none;
+    text-align: center;
+}
+.apply-button{
+    background:rgb(2, 131, 236);
+    color:#f5f5f5;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 15px;
+    padding:  6px;
+    width: 140px;
+    height: 140px;
+    box-sizing: border-box;
+    line-height: 1.9;
+    margin: 15px;
+    letter-spacing: -.1px;
+    height: max-content;
+
+}
+
+.jump-to-container{
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+
+.course-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: center;
+    
+}
+.course-button{
+    display: flex;
+    justify-content: center;
+    padding: 10px 13px ;
+    margin: 3px 5px;
+    text-align: center;
+    border-color: none;
+    background: white;
+    box-sizing:content-box;
+    border-style:solid;
+}
+
+/* sub-section */
+.first-sub-section-container{
+    display: flex;
+    justify-content: space-between;
+    margin: 7px 230px;
+}
+
+.first-div{
+    margin: 10px;
+    padding: 50px;
+}
+
+.second-div{
+    margin: 10px;
+    padding: 50px;
+    border: 2px solid palevioletred;
+    border-color: palevioletred;
+    width: 100%;
+}
+
+span{
+    color: #F86161;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.text{
+    margin: 15px 100px;
+    color: azure;
+}
+
+.h2-container{
+    text-shadow: none;
+    background: #F86161;
+    color: azure;
+}
+
+.carousel-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    padding: 20px;
+    /* margin: 15px 100px; */
+}
+
+.carousel-box{
+    display: flex;
+    justify-self:stretch;
+    margin: 10px;
+    box-shadow: grey;
+    background: white;
+    text-align: center;
+    padding: 18px;
+
+}
+
+
+hr{
+    color: #F86161;
+    width: 250px;
+    border: 1px solid #F86161;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.last-section{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.last-section-container{
+    margin-left: 10px;
+}
+
+.last-button{
+    background: none;
+    border: 1px solid #F86161;
+    color: #F86161;
+    height: max-content;
+    width: 40%;
+    padding: 4px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+.footer{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 50px;
+    padding-left: 300px;
+
+}
