@@ -6,15 +6,19 @@ def atm_app():
         acct_number = int(input('Please input recipient account number : '))
         bank_name = int(input('Input recipient Bank name: '))
         amount = int(input("Enter amount: "))
+        if amount < balance:
+            print(f"You have successfully transferred {amount} to {bank_name}{acct_number}" )
+        else:
+            print("Insufficient funds!")
 
     def open_account_or_create_pin():
         first_name = input('Please input your first name: ')
         last_name = input('Please input your last name: ')
         pin1 = int(input('Please choose a 4-digit PIN: '))
         pin2 = int(input('Please input your PIN again: '))
-           if pin1 != pin2:
+        if pin1 != pin2:
             print("PIN doesn't match! Please try again ")
-              pin1 = int(input('Please choose a 4-digit PIN: '))
+            pin1 = int(input('Please choose a 4-digit PIN: '))
             pin2 = int(input('Please input your PIN again: '))
         else:
             saved_pin = pin1
@@ -124,7 +128,6 @@ def atm_app():
             mega_plans()
         elif plan == 4:
             night_weekend_plans()
-            print(f"You have successfull subscribed to of {amount} to {phone_number} was successful!")
         return
 
     def generate_otp():
@@ -139,6 +142,7 @@ def atm_app():
         print("3 Buy Airtime ")
         print("4 Buy Data ")
         print("5 Generate a one-time OTP ")
+        print("6 Transfer ")
         keyed_num = int(input(':'))
 
         if keyed_num == 1:
@@ -151,6 +155,11 @@ def atm_app():
             buy_data()
         elif keyed_num == 5:
             generate_otp()
+        elif keyed_num == 6:
+            transfer()
+        else:
+            print("Invalid Input")
+            home_info()
 
     home_info()
 
