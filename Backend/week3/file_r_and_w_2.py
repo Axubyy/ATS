@@ -8,10 +8,12 @@ def authenticate():
             print("Input Error")
         return input_str
     
-    def password_check(paswd):
-        if len(paswd) < 8:
+    def password_check(passwd):
+        if len(passwd) >= 8:
+            return passwd
+        else:
             print("Password must not be less than 8 characters")
-        return paswd
+            password_check(passwd)
 
     def signup():
         first_name = check_is_str(input('Hello!  please enter your first name: '))
@@ -51,7 +53,7 @@ def authenticate():
         last_name = check_is_str(input("Nice!  please enter your last name: "))
         password = password_check(input(f"One last thing  {first_name}, please choose a password: "))
         for row in get_csv_data():
-                if row["password"] ==  password:
+                if row["passeword"] ==  password:
                     print("You are logged In!")
                 else:
                     print("Incorrect password")

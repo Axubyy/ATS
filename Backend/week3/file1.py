@@ -1,4 +1,3 @@
-
 def authenticate():
     first_name = input('Hello!  please enter your first name: ')
     last_name = input("Niceee!  please enter your last name: ")
@@ -19,4 +18,6 @@ def authenticate():
         print("Passwords don't match, Please check again")
         return
     return ft.readline(f"{user_data}.txt")
+
+
 print(authenticate())
