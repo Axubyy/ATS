@@ -17,41 +17,37 @@ class Triangle:
     def area(self, base, height):
         return 0.5 * height * base
 
-    def  perimeter(self, side_a,side_b,side_c):
-        return side_a+side_b+side_c
+    def perimeter(self, side_a, side_b, side_c):
+        return side_a + side_b + side_c
 
 
 class Circle:
     def __init__(self, radius):
         self.radius = radius
 
-
     def perimeter(self):
         return 2 * 3.14 * self.radius
 
     def area(self):
-        return 3.14*self.radius**2
+        return 3.14 * self.radius ** 2
 
 
 class Trapezium:
     def __init__(self):
         pass
-    
-    def area(self,a,b,h):
-        return (a+b/2)*h
 
-    def perimeter(self,a,b,c,d):
-        return a+b+c+d
+    def area(self, a, b, h):
+        return (a + b / 2) * h
 
+    def perimeter(self, a, b, c, d):
+        return a + b + c + d
 
 
 triangle1 = Triangle()
-trape1 =  Trapezium()
+trape = Trapezium()
 
-round_circle  = Circle(10)
+round_circle = Circle(10)
 
-print(triangle1.area(24,35))
-print(trape1.perimeter(1,2,3,4))
+print(triangle1.area(24, 35))
+print(trape.perimeter(1, 2, 3, 4))
 print(round_circle.area())
-
-
