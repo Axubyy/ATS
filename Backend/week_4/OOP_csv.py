@@ -1,18 +1,20 @@
+
 import csv
 
 
 class CsvProfileClass:
     headers = ['username', 'first_name', 'last_name', 'password', 'phone_number', 'date_of_birth']
-
     def __init__(self) -> None:
-        # self.user_credential = self.signin()
+        pass
 
     # # 1. After successful signup, it should prompt the user to signin.
     # 2  # . After successful signin, user should be presented with the options: Edit profile, Change password, Logout.
     # 3.  # Edit profile should ask for more information like phone_number (required), address (optional), date of birth (
     # # optional) and gender (compulsory)
 
-    def update_profile_prompt(self, user_credential):
+
+
+    def update_profile_prompt(self,user_credential):
         update_choice = input("Please update your Profile:"
                               "Choose action to perform"
                               "1 - Edit Profile"
@@ -25,7 +27,7 @@ class CsvProfileClass:
         elif update_choice == 3:
             self.logout(user_credential)
 
-    def signin(self, username, password):
+    def signin(self,username,password):
         data = self.get_data()
         for profile in data:
             if profile['username'] == username and profile['password'] == password:
@@ -51,7 +53,7 @@ class CsvProfileClass:
             csv_file = csv.DictWriter(f, fieldnames=headers)
             csv_file.writerow(kwargs)
 
-    def change_password(self, username):
+    def change_password(self,username):
         new_password = self.get_password()
         user_data = self.get_data()
         for row in user_data:
@@ -66,7 +68,7 @@ class CsvProfileClass:
                 # new_password = input("Please Input new password")
                 save_data()
 
-    def edit_profile(self, **kwargs):
+    def edit_profile(self,**kwargs):
         phone_number = get_phone_number()
         address = get_address()
         date_of_birth = "".join(get_date_of_birth().split("-"))
@@ -75,7 +77,7 @@ class CsvProfileClass:
         # date_of_birth = str("".join(date_of_birth))
         self.update_data(kwargs)
 
-    def signup(self, username, firstname, last_name, password, confirm_password):
+    def signup(self,username,firstname,last_name,password, confirm_password):
 
         # Validation starts here
         if not self.validate_username(username):
@@ -92,7 +94,7 @@ class CsvProfileClass:
     def get_username():
         return input("Enter your username: ")
 
-    def validate_username(self, username):
+    def validate_username(self,username):
         data = self.get_data()
         for profile in data:
             if profile['username'] == username:
@@ -110,3 +112,6 @@ class CsvProfileClass:
     #
     # def get_confirm_password():
     #     return input("Confirm password: ")
+
+
+# >>>>>>> 4388ca5135c647573d9fa6de27526eb5c4d3c1a1

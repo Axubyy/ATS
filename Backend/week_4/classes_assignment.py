@@ -27,7 +27,8 @@ class UserProfile:
             if user_email == email:
                 self.data_dict[user_email]["first_name"] = firstname_update
                 self.data_dict[user_email]["lastname"] = lastname_update
-            return 
+            return
+            
 
     def list_of_fullnames(self):
         for email in self.data_dict:
