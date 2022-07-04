@@ -27,9 +27,10 @@ def authenticate():
                 "password": password,
                 "confirm_password":confirm_password
             }]
-
             with  open('csv_user_data.csv', 'w') as csv_file_text:
-                headers = ["first_name", "last_name", "password","confirm_password"]
+                headers = [
+                    "first_name", "last_name","password",
+                "confirm_password"]
                 handlers = csv.DictWriter(csv_file_text, fieldnames=headers)
                 handlers.writeheader()
                 handlers.writerows(user_data)
