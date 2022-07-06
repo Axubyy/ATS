@@ -1,3 +1,4 @@
+
 import csv
 
 
@@ -5,6 +6,7 @@ class CsvProfileClass:
     headers = ['username', 'first_name', 'last_name', 'password', 'phone_number', 'date_of_birth']
 
     def __init__(self) -> None:
+        pass
         # self.user_credential = self.signin()
 
     # # 1. After successful signup, it should prompt the user to signin.
