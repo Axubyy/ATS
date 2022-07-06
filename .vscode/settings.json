@@ -1,0 +1,5 @@
+{
+    "pythonIndent.trimLinesWithOnlyWhitespace": true,
+    "editor.formatOnPaste": true,
+    "pasteAndIndent.selectAfter": true
+}
