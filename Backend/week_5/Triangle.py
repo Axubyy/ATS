@@ -8,7 +8,10 @@ class Rectangle:
         self.__length = length
         self.__width = width
 
-
+    @property
+    def set_length(self):
+        return self.__length
+    
     @set_length.setter
     def set_length(self,length):
         """Set length value"""
@@ -16,7 +19,12 @@ class Rectangle:
             self.__length = length
         else:
                 raise ValueError("Invalid length value: %d" %length)
-            
+
+
+    @property
+    def set_width(self):
+        return self.__width
+           
     @set_width.setter        
     def set_width( self, width ):
             """Set width value"""
@@ -33,4 +41,8 @@ class Rectangle:
 
     def __str__(self) -> str:
          return ""
-        
+
+
+tri1 = Rectangle(10,4)
+print(tri1.area())
+print(tri1.perimeter())
