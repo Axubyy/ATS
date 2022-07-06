@@ -16,20 +16,21 @@ class Time:
             if 0 <= hour < 24:
                 self.__hour = hour
             else:
-                raise ValueError, "Invalid hour value: %d" % hour
+                raise ValueError("Invalid hour value: %d" % hour)
+            
         def setMinute( self, minute ):
             """Set minute value"""
             if 0 <= minute < 60:
                 self.__minute = minute
             else:
-                raise ValueError, "Invalid minute value: %d" % minute
+                raise ValueError("Invalid minute value: %d" % minute)
             
         def setSecond(self, second):
             """Set second value"""
             if  0 <=second < 60:
                 self.__second = second
             else:
-                raise ValueError, "Invalid second value: %d" % second
+                raise ValueError("Invalid second value: %d" % second)
             
         def getHour( self ):
             """Get hour value"""
@@ -38,6 +39,10 @@ class Time:
         def getMinute( self ):
             """Get minute value"""
             return self.__minute
+        def tick(self):
+            """Increment time-in-seconds by a second"""
+            print(self.getSecond()+1)
+            return self.getSecond()+1
         def getSecond( self ):
             """Get second value"""
             return self.__second
@@ -59,3 +64,16 @@ class Time:
             else:
                 standardTime += " PM"
                 print(standardTime)
+
+
+t1 = Time(2,30,40)
+print(t1.tick())
+
+t2 = Time(23,59,59)
+print(t2.tick())
+print(t2.getHour())
+print(t2.tick())
+print(t2.getHour)
+
+t3 = Time(23,59,59)
+print(t3.printStandard())

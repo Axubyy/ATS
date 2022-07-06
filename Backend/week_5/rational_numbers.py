@@ -6,4 +6,4 @@ class RationalNumbers:
                 self.denominator = int(denominator)
 
         def add_rationals():
-            
+            pass
