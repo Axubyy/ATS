@@ -44,8 +44,8 @@ class Time:
             print('In Tick..')
             print(self.getSecond())
             increased_time = self.getSecond() + 1
-            # print(increased_time)
-            return increased_time
+           
+            return self.getSecond() + 1
         def getSecond( self ):
             """Get second value"""
             return self.__second
@@ -69,21 +69,22 @@ class Time:
                 print(standardTime)
 
 
-t1 = Time()
+# t1 = Time()
 
 
 t2 = Time(23,59,59)
-# print(t2.tick())
-# print(t2.getHour())
-# print(t2.tick())
-# print(t2.getHour)
+
 
 # t1.setHour( 23 )
 # t1.setMinute( 59 )
-# t1.setSecond( 59 )
+t2.setSecond( 59 )
 # print(t1.tick())
 print(t2.tick())
-# print(t2.printStandard())
+print(t2.printStandard())
+print(t2.tick())
+print(t2.getHour())
+print(t2.tick())
+print(t2.getHour)
 
 # t3 = Time(23,59,59)
 # print(t3.printStandard())

@@ -1,1 +1,1 @@
-print(increased_time)
+print(board.get_random_first_player())

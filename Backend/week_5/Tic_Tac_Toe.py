@@ -6,11 +6,7 @@
 # whether the game is a draw. [Note: If you feel ambitious, modify your program so that the computer
 # makes the moves for one of the players automatically. Also, allow the player to choose whether to go
 # first or second.]
-
-
-
-
-from random import random
+import random
 
 
 class Tic_Tac_Toe:
@@ -102,15 +98,11 @@ class Tic_Tac_Toe:
 
             self.show_board()
 
-            # taking user input
-            row, col = list(
-                map(int, input("Enter row and column numbers to fix spot: ").split()))
-            print()
-
-            # fixing the spot
+            row, col = list(map(int, input("Enter row and column numbers to fix spot (with space(s) in between): ").split()))
+            print
             self.fix_position(row - 1, col - 1, player)
 
-            # checking whether current player is won or not
+            # checking whether player is won or not
             if self.is_current_player_winner(player):
                 print(f"Player {player} is the game winner!")
                 break
@@ -144,7 +136,7 @@ class Tic_Tac_Toe:
 board = Tic_Tac_Toe()
 
 print(board.show_board())
-print(board.get_random_first_player())
-print(board.fix_position())
+# print(board.get_random_first_player())
+# print(board.fix_position())
 print(board.start())
 print(board.is_current_player_winner())

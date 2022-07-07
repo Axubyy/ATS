@@ -21,7 +21,7 @@ class ComplexNumbers:
     @staticmethod
     def print_normal_form_(real, imaginary):
         
-        return f"{real,imaginaryi}"
+        return f"{real,imaginary}"
 
     def __str__(self) -> str:
         return ""
@@ -29,8 +29,36 @@ class ComplexNumbers:
 
 
 
-z1 = ComplexNumbers(2, 3,2,4)
-z2 = ComplexNumbers()
+class Complex_Num:
+    def __init__( self, real = 0, imaginary = 0 ):
+        self.realPart = real
+        self.imaginaryPart = imaginary
+        
+    def __add__( self, second_val ):
+            real = self.realPart + second_val.realPart
+            imaginary = self.imaginaryPart + second_val.imaginaryPart
+            
+            return Complex_Num( real, imaginary )
+    def __sub__( self, second_val ):
+        real = self.realPart - second_val.realPart
+        imaginary = self.imaginaryPart - second_val.imaginaryPart
+        return Complex_Num( real, imaginary )
+    def __str__(self) -> str:
+        return f"{self.realPart} + {self.imaginaryPart}i"
 
-print(z1.add_complex())
-print(z2.print_normal_form_(1,2))
+    @staticmethod
+    def print_normal_form_(real, imaginary):
+        
+        return tuple(real,imaginary)
+   
+
+
+
+# z1 = ComplexNumbers(2, 3,2,4)
+# z2 = ComplexNumbers()
+
+z1 = Complex_Num(2, 3)
+z2 = Complex_Num(2,4)
+print(z1.__add__(z2))
+print(z1.__sub__(z2))
+print(z1.print_normal_form_(2,3))
