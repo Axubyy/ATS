@@ -8,9 +8,9 @@
 
 
 class Sophisticated_triangle:
-    def __init__(self,args) -> None:
+    def __init__(self, *args) -> None:
         print(args)
-        self._coordinates =args 
+        self._coordinates = args 
 
     @property
     def set_coordinates(self):
@@ -32,10 +32,13 @@ class Sophisticated_triangle:
         #     if args[i] > max_val:
         #         max_val = args[i]
         # self.__length = max_val
+        args = self._coordinates
         self.__length = max(args)
+        return self.__length
 
     def width(self,*args):
-        pass
+        args = self._coordinates
+        return max(args)
 
 
     def isSquare(self):
@@ -46,6 +49,8 @@ class Sophisticated_triangle:
             return False
 
 
-s_tri = Sophisticated_triangle((1, 2,3,4))
+s_Rect = Sophisticated_triangle(1, 2,3,4)
 
-print(s_tri.isSquare())
+print(s_Rect.isSquare())
+print(s_Rect.length())
+print(s_Rect.width())

@@ -7,10 +7,14 @@
 # makes the moves for one of the players automatically. Also, allow the player to choose whether to go
 # first or second.]
 
-from re import X
+
+
+
+from random import random
 
 
 class Tic_Tac_Toe:
+    count = 0
     def __init__(self) -> None:
         self.board = [
             [0,0,0],
@@ -18,12 +22,129 @@ class Tic_Tac_Toe:
             [0,0,0]
                     ]
 
-        self.move =[]
+    def show_board(self):
+        for row in self.board:
+            for item in row:
+                print(item, end=" ")
+            print()
+            
+    def get_random_first_player(self):
+        return random.randint(0, 1)
 
-    def player_symbol():
-        symbol_1 = X
-        symbol_2 = 0
+    def fix_position(self, row, col, player):
+        self.board[row][col] = player
+
+    def is_board_filled(self):
+        for row in self.board:
+            for item in row:
+                if item == 0:
+                    return False
+        return True
+
+    def swap_player_turns(self, player):
+        return 'X' if player == 'O' else 'O'
+
+    def is_current_player_winner(self, player):
+        win = None
+
+        n = len(self.board)
+
+        # checking rows
+        for i in range(n):
+            win = True
+            for j in range(n):
+                if not self.board[i][j] == player:
+                    win = False
+                    break
+            if win:
+                return win
+
+        # checking columns
+        for i in range(n):
+            win = True
+            for j in range(n):
+                if self.board[j][i] != player:
+                    win = False
+                    break
+            if win:
+                return win
+
+        # checking diagonals
+        win = True
+        for i in range(n):
+            if self.board[i][i] != player:
+                win = False
+                break
+        if win:
+            return win
+
+        win = True
+        for i in range(n):
+            if self.board[i][n - 1 - i] != player:
+                win = False
+                break
+        if win:
+            return win
+        return False
+
+        # for row in self.board:
+        #     for item in row:
+        #         if item == '-':
+        #             return False
+        # return True
+
+    def start(self):
+        # self.create_board()
+
+        player = 'X' if self.get_random_first_player() == 1 else 'O'
+        while True:
+            print(f"Player {player} turn")
+
+            self.show_board()
+
+            # taking user input
+            row, col = list(
+                map(int, input("Enter row and column numbers to fix spot: ").split()))
+            print()
+
+            # fixing the spot
+            self.fix_position(row - 1, col - 1, player)
+
+            # checking whether current player is won or not
+            if self.is_current_player_winner(player):
+                print(f"Player {player} is the game winner!")
+                break
+
+            # checking whether the game is draw or not
+            if self.is_board_filled():
+                print("Match Draw!")
+                break
+
+            # swapping the turn
+            player = self.swap_player_turns(player)
+
+        # showing the final view of board
+        print()
+        self.show_board()
 
     
-    def isFull(board, symbol_1, symbol_2):
-        pass
+ 
+
+    # def check_winning_move(self,player):
+    #     if self.board[1] == self.board[2] == self.board[3] == player:
+    #         return True
+    #     pass
+
+    # def update_position(self, position_no,player):
+    #     if self.board[position_no] == 0:
+    #         self.board[position_no] = player
+
+
+
+board = Tic_Tac_Toe()
+
+print(board.show_board())
+print(board.get_random_first_player())
+print(board.fix_position())
+print(board.start())
+print(board.is_current_player_winner())
