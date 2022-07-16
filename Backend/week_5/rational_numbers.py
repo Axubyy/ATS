@@ -34,8 +34,8 @@ class RationalNumbers:
                         y = z % y
                 return x
         
-        def add_rationals():
-            pass
+        def __str__():
+            return
 
 
 

@@ -41,11 +41,25 @@ class Time:
             return self.__minute
         def tick(self):
             """Increment time-in-seconds by a second"""
-            print('In Tick..')
-            print(self.getSecond())
-            increased_time = self.getSecond() + 1
-           
-            return self.getSecond() + 1
+            # time_in_seconds = seconds// 60
+            self.__second = self.getSecond()
+            self.__minute = self.getMinute()
+            self.__hour = self.getHour()
+            if self.__second > 59 and self.__minute < 59 and self.__hour < 23:
+                tick_time = ""
+                self.__second = 00
+                self.__minute += 1
+                tick_time  = f"{self.__hour}0: {self.__minute}0 :{self.__second}0"
+            elif self.__minute > 59 and self.__second > 59 and self.__hour != 23:
+                self.__minute = 00
+                self.__second = 00
+                tick_time = f"{self.__hour+1}: {self.__minute} :{self.__second}"
+        
+            elif self.__minute == 00 and self.__second == 00 or self.__hour == 00:
+                tick_time = f"{self.__hour+1}: {self.__minute+1} :{self.__second+1}"
+            print(tick_time)
+            return tick_time
+        
         def getSecond( self ):
             """Get second value"""
             return self.__second
@@ -72,19 +86,21 @@ class Time:
 # t1 = Time()
 
 
-t2 = Time(23,59,59)
-
+t2 = Time(20,59,59)
+t = Time(16,30,59)
 
 # t1.setHour( 23 )
 # t1.setMinute( 59 )
 t2.setSecond( 59 )
+print(t2.getHour())
 # print(t1.tick())
+t.setSecond( 59 )
+print(t.tick())
 print(t2.tick())
 print(t2.printStandard())
-print(t2.tick())
-print(t2.getHour())
-print(t2.tick())
-print(t2.getHour)
+# print(t2.tick())
+# print(t2.tick())
+# print(t2.getHour)
 
 # t3 = Time(23,59,59)
 # print(t3.printStandard())

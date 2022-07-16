@@ -37,7 +37,7 @@ class Tic_Tac_Toe:
                     return False
         return True
 
-    def swap_player_turns(self, player):
+    def change_player_turns(self, player):
         return 'X' if player == 'O' else 'O'
 
     def is_current_player_winner(self, player):
@@ -85,7 +85,7 @@ class Tic_Tac_Toe:
 
         # for row in self.board:
         #     for item in row:
-        #         if item == '-':
+        #         if item == '0':
         #             return False
         # return True
 
@@ -98,22 +98,23 @@ class Tic_Tac_Toe:
 
             self.show_board()
 
-            row, col = list(map(int, input("Enter row and column numbers to fix spot (with space(s) in between): ").split()))
-            print
+            row, col = list(map(int, input("Enter row and column numbers to fix spot (two numbers with space(s) in between): ").split()))
+            print()
             self.fix_position(row - 1, col - 1, player)
 
             # checking whether player is won or not
             if self.is_current_player_winner(player):
                 print(f"Player {player} is the game winner!")
+                print("Thanks for Playing, Bye! Exiting ...")
                 break
 
             # checking whether the game is draw or not
             if self.is_board_filled():
-                print("Match Draw!")
+                print("Game Draw! Exiting ....")
                 break
 
             # swapping the turn
-            player = self.swap_player_turns(player)
+            player = self.change_player_turns(player)
 
         # showing the final view of board
         print()
@@ -121,15 +122,6 @@ class Tic_Tac_Toe:
 
     
  
-
-    # def check_winning_move(self,player):
-    #     if self.board[1] == self.board[2] == self.board[3] == player:
-    #         return True
-    #     pass
-
-    # def update_position(self, position_no,player):
-    #     if self.board[position_no] == 0:
-    #         self.board[position_no] = player
 
 
 
