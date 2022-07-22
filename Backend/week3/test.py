@@ -1,13 +1,13 @@
 import csv
 
-with open('csv_file.csv', 'r', newline='') as csvfile:
+with open('countries.csv', 'r', newline='') as csvfile:
     spam_reader = csv.DictReader(csvfile)
     for row in spam_reader:
         print(row)
-        if row['Year'] == 1999:
-            print(row['Year'])
+        # if row['Year'] == 1999:
+        # print(row['Year'])
 
-            print(row.items())
+        # print(row.items())
 
 # with open('egg.csv', 'w+', newline='') as csvfile:
 #     spam_writer = csv.writer(csvfile)

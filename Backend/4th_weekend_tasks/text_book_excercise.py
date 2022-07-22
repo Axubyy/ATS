@@ -4,46 +4,67 @@
 
 
 import random
-import  string
+import string
 
 # def not_duplicate():
 #     list = [x for x in range(0,20)]
 #     print(list)
-alpha_keys = list(string.ascii_lowercase)
-alpha_keys = alpha_keys[:20]
+# alpha_keys = list(string.ascii_lowercase)
+# alpha_keys = alpha_keys[:20]
 # num_values = random.sample(range(1,99),20)
-num_values = [1,2,3,4,5,5,6,6,7,8,9,10,11,12,13,14,15,16,17,18,]
+# num_values = [1,2,3,4,5,5,6,6,7,8,9,10,11,12,13,14,15,16,17,18,]
 
-num_dict = dict(zip(alpha_keys,num_values))
-print(num_dict)
-flipped_dict = {}
-duplicate_nums = []
-def check_for_duplicate():
-        for key,value in num_dict.items():
-           # i = 1 if i not in duplicate_val_list else +1
-            if value not in flipped_dict:
-               
-                flipped_dict[value] = [key]
-            else:
-                print(key)
-                flipped_dict[value].append(key)
-                duplicate_nums.append(value)
-        duplicates = []
-        print(flipped_dict)
-        print(duplicate_nums)
-        for arr in flipped_dict.values():
-            print(arr)
-            if len(arr) > 1:  
-                duplicates = duplicates + arr
-                print(duplicates)
-        print(f"The duplicate value(s) are {duplicate_nums} with the key(s){duplicates}")
-            
-        return   duplicates
-                # print(f"{i} has a duplicate")
-                # return i
-check_for_duplicate()
+
+# num_dict = dict(zip(alpha_keys,num_values))
+# print(num_dict)
+# flipped_dict = {}
+# duplicate_nums = []
+# def check_for_duplicate():
+#         for key,value in num_dict.items():
+#            # i = 1 if i not in duplicate_val_list else +1
+#             if value not in flipped_dict:
+
+#                 flipped_dict[value] = [key]
+#             else:
+#                 print(key)
+#                 flipped_dict[value].append(key)
+#                 duplicate_nums.append(value)
+#         duplicates = []
+#         print(flipped_dict)
+#         print(duplicate_nums)
+#         for arr in flipped_dict.values():
+#             print(arr)
+#             if len(arr) > 1:
+#                 duplicates = duplicates + arr
+#                 print(duplicates)
+#         print(f"The duplicate value(s) are {duplicate_nums} with the key(s){duplicates}")
+
+#         return   duplicates
+#                 # print(f"{i} has a duplicate")
+#                 # return i
+# check_for_duplicate()
 # print(not_duplicate())
 # D = {x: x * 2 for x in range(1, 100)}
 # print(len(D))
 # for i in range(0, random.randint(1, 99)):
 #     i = i + 1
+# alpha_keys = list(string.ascii_letters)[:20]
+# num_values = list(random.sample(range(99), 20))
+alpha_keys = list('qwabccddeeffghijkkll')
+num_values = [1, 2, 3, 4, 5, 5, 6, 6, 7, 8,
+              9, 10, 11, 12, 13, 14, 15, 16, 17, 18, ]
+main_dict = dict(zip(num_values, alpha_keys))
+flipped_dict = {}
+print(alpha_keys)
+print(main_dict)
+duplicate_list = []
+for k, v in main_dict.items():
+    if v in flipped_dict:
+        duplicate_list.append(v)
+        flipped_dict[v].append(k)
+
+    else:
+        flipped_dict[v] = [k]
+print(flipped_dict)
+
+print(duplicate_list)

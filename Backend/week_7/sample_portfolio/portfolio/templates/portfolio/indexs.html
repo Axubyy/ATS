@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 
+        {% block title %}   {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+    {% block css_files %}
+    
+    {% endblock %}
+    <style>
+        
+    </style>
+</head>
+<body>
+    <header class="header__class">
+
+        <nav class="nav_class">
+            <ul class="ul__class">
+                <li class="li_class"> <a href=""> Twitter</a></li>
+                <li class="li_class"><a href=""> Linkedln</a></li>
+                <li class="li_class"><a href="">Github</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    {% block content %}
+    <div class="body__container">
+        {% comment %} <img src="{% static "portfolio/images/Hello.jpg" %}" alt=""> {% endcomment %}
+            <div class="image__container">
+                <img  src="{% static "portfolio/images/20220528_162324-removebg.png" %}" alt="">
+            </div>
+            <div class="side_container">
+                 <div class="text_info_container"> 
+                <p class="text-p">
+                    Hi I,m Samuel! Nice meeting you.
+
+
+                    {% comment %} Pellentesque in ipsum id orci porta dapibus amet dui.
+                    Ad id deserunt ratione autem eius et minima ut et. 
+                    Nihil sed quis velit aut enim aliquam. Quas non ad sint eveniet voluptatem est iure... {% endcomment %}
+                </p>
+                
+
+            </div>
+            <div class="contact_me">
+                    <button class="button" href="mailto:azubuinesamuel@gmail.com">Contact Me</button>
+            </div>
+            </div>
+    </div>
+
+            <div class="content_section">
+                <div class="content">
+                    What I do 
+                </div>
+                 <div class="content">
+                    Projects
+                 </div>
+                <div class="content">
+
+                </div>
+
+            </div>
+            
+            <footer class="footer_class">
+                    <p class="footer_class1">
+                        Copyright
+                    </p>
+                    <p class="p_class">
+                        AFEX Ibadan    C-2022
+                    </p>
+            </footer>
+
+    {% endblock %}
+</body>
+</html>
