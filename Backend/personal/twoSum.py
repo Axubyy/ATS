@@ -1,4 +1,3 @@
-from sys import implementation
 
 
 def check_for_two_sums(arr, target_sum):
@@ -11,7 +10,7 @@ def check_for_two_sums(arr, target_sum):
         if arr[start_index] + arr[end_index] == target_sum:
             sum_arr.append(arr[start_index], arr[end_index])
         elif arr[start_index] + arr[end_index] > target_sum:
-            start_index -= 1
+            start_index += 1
             i += 1
         elif arr[start_index] + arr[end_index] < target_sum:
             end_index -= 1
@@ -39,3 +38,6 @@ def check_for_sum(arr, target_sum):
     #             hash_table[x] = True
     #             hash_table[y] = True
     #         elif target
+
+
+print(check_for_sum([1, 3, 4, 5, 6, 7, ], 9))

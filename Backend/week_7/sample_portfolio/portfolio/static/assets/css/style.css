@@ -36,7 +36,7 @@ html, body {
  * Background colors 
  */
 .blue-bg {
-  background-color: #196fc2;
+  background-color: black;
 }
 
 /* 
@@ -44,13 +44,13 @@ html, body {
  */
 .btn {
   font-family: "Varela", sans-serif;
-  background-color: #196fc2;
+  background-color: rgba(0, 0, 0, .5);
   padding: 0 15px;
   color: #ffffff;
   height: 44px;
   line-height: 42px;
   border-radius: 0;
-  border: 1px solid #196fc2;
+  border: 1px solid rgba(0, 0, 0, .5);
   text-transform: uppercase;
 }
 
@@ -279,7 +279,7 @@ html, body {
   position: relative;
   padding: 0 30px 0 15px;
   height: 60px;
-  background-color: #004b91;
+  background-color: black;
   z-index: 2;
 }
 
@@ -306,7 +306,7 @@ html, body {
 
 /* Navigation */
 .site-navigation {
-  background-color: #196fc2;
+  background-color:black;
 }
 
 .site-navigation.affix {
@@ -403,7 +403,7 @@ html, body {
   }
   .site-navigation .navbar-collapse {
     position: relative;
-    background-color: #196fc0;
+    background-color: black;
     z-index: 99;
     text-align: center;
     border-top: 0;
@@ -425,8 +425,9 @@ html, body {
 /* HERO
 ================================================== */
 .hero {
-  background: url(../img/20220528_162324-removebg.png) center no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(../img/20220528_162324-removebg.png) center no-repeat;
   /* background-color: ; */
+  opacity: 0.8;
   height: 100%;
   width: 100%;
   display: table;
@@ -1146,7 +1147,7 @@ html, body {
 
 .carousel-indicators .active .col-sm-fifth,
 .carousel-indicators a:hover .col-sm-fifth {
-  background-color: #196fc2;
+  background-color:rgba(0, 0, 0, .5);
 }
 
 .carousel-indicators .active .service p,

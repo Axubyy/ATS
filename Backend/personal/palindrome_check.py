@@ -1,5 +1,5 @@
-# def palindrome(word):
-#     return word is "".join(reversed(word))
+def palindrome(word):
+    return word is "".join(reversed(word))
 
 
 def palindrome(word):

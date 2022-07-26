@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Blog</title>
+     <h1>Welcome to Hospost Gist 2022, The Happening Blog!</h1>
+    <h3> Navigate to satisfy your curiosity</h3>
+
+    <div class="container-fluid">
+                <div class="row">
+                <div class="col-sm-2">
+                {% block sidebar %}
+                    <ul class="sidebar-nav">
+                    <li><a href="{% url 'home:home' %}">Home</a></li>
+                    {% comment %} <li><a href="{% url "home:post" %}">All Posts</a></li> {% endcomment %}
+                    {% comment %} <li><a href="{% url "" %}">All authors</a></li> {% endcomment %}
+                    </ul>
+                    {% endblock %}
+                     </div>
+    </div>
+</div>
+    {% block title %}
+
+    {% endblock title %}
+
+
+
+    {% block css_files %}
+    
+    {% endblock css_files %}
+</head>
+<body>
+
+    <div class="body_container">
+        {% block content %}
+    
+    
+    
+        {% endblock content %}
+
+    </div>
+    <div class="footer">
+            <p> Azubuine 2022</p>
+            <h3> Navigate to satisfy your curiosity</h3>
+        {% block footer %}
+    
+            
+        {% endblock footer %}
+    </div>
+
+
+</body>
+</html>
