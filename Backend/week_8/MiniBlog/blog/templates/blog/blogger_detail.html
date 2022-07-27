@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block sidebar %}
+
+
+{% endblock sidebar %}
+
+{% block content %}
+ <h1>Name: {{ single_blogger.user}}</h1>
+
+  <p><strong> Bio Info:</strong> {{ sinlge_blogger.user  }} </a></p> 
+  <small><p>{{ single_blogger.bio_info}}</p></small>
+{% endblock content %}
+

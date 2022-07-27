@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block content %}
+
+ <title>My Blog</title>
+     <h1>Welcome to Hospost Gist 2022, The Happening Blog!</h1>
+    <h3> Navigate to satisfy your curiosity</h3>
+
+    <ul>
+        {% comment %} {% for blog_post in blog_posts  %}{% endfor %} {% endcomment %}
+    <p>This Blog App has the following record counts:</p>
+        <li>Blog Posts:{{ blog_posts_count }}</li>
+        <li>Total Bloggers : {{ all_bloggers}} </li>
+        {% comment %} <li></li>
+        <li></li>
+        <li></li> {% endcomment %}
+    </ul>
+
+{% endblock content %}

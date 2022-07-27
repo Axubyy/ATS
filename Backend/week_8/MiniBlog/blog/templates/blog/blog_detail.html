@@ -1,0 +1,61 @@
+{% extends 'base_generic.html' %}
+{% load  static %}
+
+
+{% block content %}
+
+
+<div class="content_container">
+   <strong><h1>{{blog_post.title}}</h1></strong> 
+        <p>{{ blog_post.post_date}}</p>
+    <strong>By {{ blog_post.author}}</strong>
+    <div class="post_description">
+        {{ blog_post.description }}
+    </div>
+</div>
+        
+        
+
+<div class="comment">
+    <div class="previous_comments">
+        <h3 style="text-align:center">Post Comments</h3>
+        {% for comment in comments  %}
+            <p>{{ comment.description}}</p>
+            <p>{{ comment.post_date}}</p>
+           <small><p>{{comment.user}}</p></small> 
+            <hr>
+        {% endfor %}
+        
+    </div>
+
+
+
+
+{% if user.is_authenticated %}
+<div style="margin:20px;height:20px">
+   <form  method="POST"  action="{% url "blog:blog-detail" blog_post.pk %}">
+        {% csrf_token %}        
+            {% comment %} {{ comment_form}} {% endcomment %}
+        {% for comment  in comment_form  %}
+            <div>
+                {{ comment.label_tag}}
+                    {{comment}}
+                    {{comment.errors}}
+            </div>
+            {% endfor %} 
+        <button type="submit">Save Comment</button>
+    </form>
+
+</div>
+ 
+    {% else %}
+    <div style="margin:40px;padding:20px;">
+        <p><a href="{% url "login" %}"> Login</a> to Comment </p>
+    </div>
+    
+{% endif %}
+    
+  
+</div>
+
+{% endblock content %}
