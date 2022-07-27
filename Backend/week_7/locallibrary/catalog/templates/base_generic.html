@@ -29,6 +29,11 @@
    {% else %}
      <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
    {% endif %}
+
+    {% if user.is_staff %}
+     <li>User: Staff</li>
+      <li><a href="{% url 'borrowed' %}">All Borrowed</a></li>
+   {% endif %}
   </ul>
     {% block pagination %}
     {% if is_paginated %}
@@ -53,6 +58,4 @@
   </div>
 </body>
 </html>
-Copy to Clipboard
-The template includes CSS from Bootstrap to improve the layout and presentation of the HTML page. Using Bootstrap (or another client-side web framework) is a quick way to create an attractive page that displays well on different screen sizes.
 
