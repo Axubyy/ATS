@@ -2,15 +2,35 @@
 
 {% load static %}
 
-{% block sidebar %}
-
-
-{% endblock sidebar %}
-
 {% block content %}
- <h1>Name: {{ single_blogger.user}}</h1>
+ <h1>Name: {{single_blogger}}</h1>
 
-  <p><strong> Bio Info:</strong> {{ sinlge_blogger.user  }} </a></p> 
+  <p><strong> Bio Info:</strong> {{ single_blogger.first_name  }} </a></p> 
   <small><p>{{ single_blogger.bio_info}}</p></small>
+   <div>
+        <img src="{{ user_profile.image.url }}" alt="Profile picture"  style="width: 2rem;
+  height: 10rem;
+  width:10rem;
+  object-fit: scale-down;
+  object-position: top;
+  border: 5px solid white;
+  border-radius: 3000px;
+  background-color: #ffe1bf;
+  transform: rotateZ(-5deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="">
+
+  </div>
+
+  <div>
+     <form action="{% url 'blog:update-profile' single_blogger.pk %}" method="POST">
+                {% csrf_token %}
+                    {{ user_form.as_p}}
+                    {{ profile_form.as_p}}
+  
+                <button type="submit"> Update Profile</button> 
+            </form>
+  </div>
+    
+  {% comment %} <small><p><a href="{% url 'profile-detail' single_blogger.pk %}">Update Proile</a></p></small> {% endcomment %}
 {% endblock content %}
 

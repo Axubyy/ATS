@@ -1,0 +1,22 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block content %}
+         <div>
+        <h2>User Details</h2>
+         <h4>Name: <strong>{{ blogger_profile.user.first_name}}</strong></h4>
+        <img src="{{ blogger_profile.image.url }}"  style="width: 2rem;
+  height: 10rem;
+  width:10rem;
+  object-fit: scale-up;
+  object-position: top;
+  border: 5px solid white;
+  border-radius: 3000px;
+  background-color: #ffe1bf;
+  transform: rotateZ(-5deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="">
+
+  
+  <small><p><a href="{% url 'profile-detail' %}">Update Proile</a></p></small>
+{% endblock content %}

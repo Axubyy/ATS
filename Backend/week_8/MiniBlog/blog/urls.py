@@ -12,5 +12,7 @@ urlpatterns = [
     path('<int:pk>/', views.BlogDetailView.as_view(), name="blog-detail"),
     path('bloggers', views.BloggersListView.as_view(), name="bloggers"),
     path('blogger/<int:pk>', views.BloggerDetailView.as_view(), name='blogger'),
+    path('update-profile/<int:pk>/',
+         views.update_profile, name="update-profile")
 
 ]

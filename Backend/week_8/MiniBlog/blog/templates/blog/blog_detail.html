@@ -22,7 +22,7 @@
         {% for comment in comments  %}
             <p>{{ comment.description}}</p>
             <p>{{ comment.post_date}}</p>
-           <small><p>{{comment.user}}</p></small> 
+           <small><p> By {{ comment.user.first_name }}</p></small> 
             <hr>
         {% endfor %}
         

@@ -4,12 +4,13 @@ from django.views.generic.base import TemplateView
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views import View
+from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse
 
-from .forms import CommentForm
+from .forms import CommentForm, ProfileForm, UserUpdateForm
 
-from .models import BlogPost, Bloggers, Comment
+from .models import BlogPost, Bloggers, Comment, Profile
 
 # Create your views here.
 
@@ -44,7 +45,6 @@ class BlogDetailView(DetailView):
             comment = comment_form.save(commit=False)
             # sets the comment post attribute to this Instance of the blogPost
             comment.post = blog_post
-            commenter = comment.user
             comment.save()
             return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
 
@@ -101,8 +101,13 @@ class BloggerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         single_blogger = get_object_or_404(Bloggers, pk=self.kwargs['pk'])
+        user_form = UserUpdateForm()
+        profile_form = ProfileForm()
 
-        context['single_blogger'] = single_blogger
+        context["single_blogger"] = single_blogger
+
+        context["user_form"] = user_form
+        context["profile_form"] = profile_form
         return context
 
 
@@ -126,3 +131,30 @@ def index(request):
         "blog_posts_count": blog_posts_count,
         "all_bloggers": all_bloggers,
     })
+
+
+# @login_required(login_url='accounts/login')
+def update_profile(request):
+
+    user_profile = get_object_or_404(Profile, user=request.user)
+
+    if request.method == "POST":
+        profile_form = ProfileForm(
+            request.POST, request.FILES, instance=request.user)
+        user_form = UserUpdateForm(request.POST, instance=user_profile)
+
+        if profile_form.is_valid() and user_form.is_valid():
+            profile_form.save()
+            user_form.save()
+            return HttpResponseRedirect("profiles/")
+
+        else:
+
+            user_form = UserUpdateForm()
+            profile_form = ProfileForm()
+            print(user_form)
+            return render(request, "blog/blogger_detail.html", {
+                "user_form": user_form,
+                "profile_form": profile_form,
+                "user_profile": user_profile
+            })

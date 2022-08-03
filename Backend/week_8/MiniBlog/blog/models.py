@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.dispatch import receiver
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
@@ -9,10 +10,18 @@ User = get_user_model()
 # Create your models here
 
 
-class Bloggers(models.Model):
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(upload_to='images', null=True)
 
-    # first_name = models.CharField(max_length=50)
-    # last_name = models.CharField(max_length=20)
+    def __str__(self):
+        return self.user.first_name
+
+    def get_absolute_url(self):
+        return reverse("profile-detail", args=[self.pk])
+
+
+class Bloggers(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     bio_info = models.TextField()
 
@@ -27,7 +36,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=50)
     post_date = models.DateTimeField()
     author = models.ForeignKey(
-        Bloggers, on_delete=models.CASCADE, related_name="author")
+        Bloggers, on_delete=models.CASCADE, related_name="author", null=True)
     description = models.TextField()
 
     def __str__(self) -> str:
@@ -38,6 +47,11 @@ class BlogPost(models.Model):
 
     class Meta:
         ordering = ['post_date']
+
+
+# @receiver(pre_save, sender=BlogPost)
+# def slug_function(sender, instance, *args, **kwargs):
+#     instance.slug = slugify(instance.title)
 
 
 class Comment(models.Model):
