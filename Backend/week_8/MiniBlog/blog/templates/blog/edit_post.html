@@ -1,0 +1,84 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 style="text-align:center;"> Edit Your Blog Post</h1>
+  {% if user.is_authenticated %}
+     {% if blog_post.author.user.id == user.id %}
+    <div>
+        
+        
+<form action="{% url "blog:edit-post" blog_post.id %}" method="POST">
+    {% csrf_token %}
+  <div class="form-content my-20 p-30">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                            <div class="card-header justify-content-center">
+                              <h3 class="font-weight-light my-4 text-center">Edit and Archive Post</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-md-10 offset-md-1">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="title">Post Title</label>
+                                            {{post_form.title}}
+                                                <span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-10 offset-md-1">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="description">Post Body and Description</label>
+                                                {{post_form.description}}
+                                                <span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="form-row">
+                                        <div class="col-md-10 offset-md-1">
+                                            <div class="form-group mt-0 mb-1">
+                                                <button type="submit" class="btn btn-primary btn-lg" id="reset">Update Post</button>
+                                            </div>
+                                            <div class="form-row">
+                                        
+                                        {% if blog_post.is_deleted %}
+
+                                            <div class="col-md-6 offset-md-7">
+                                            <div class="form-group">
+                                                <a href="{% url 'blog:un-delete-post' blog_post.pk %}" class="btn btn-dark">
+                                                    Un-Archive Post
+                                                    </a>
+                                            </div>
+                                            {% else%}
+                                        <div class="col-md-6 offset-md-7">
+                                            <div class="form-group">
+                                                <a href="{% url 'blog:delete-post' blog_post.pk %}" class="btn btn-dark">
+                                                    Archive Post
+                                                    </a>
+                                            </div>
+                                        {% endif %}
+                                            
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </form>
+    </div>
+  {% endif %}
+  {% endif %}
+{% endblock %}

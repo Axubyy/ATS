@@ -1,16 +1,20 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.forms import PasswordInput
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 
-from django.urls import reverse
 
-from .forms import CommentForm, ProfileForm, UserUpdateForm
+from django.urls import reverse, reverse_lazy
 
-from .models import BlogPost, Bloggers, Comment, Profile
+from .forms import BlogPostCreateForm, CommentForm, ProfileForm, UserUpdateForm
+
+from .models import BlogPost, Bloggers, Comment, Profile, User
 
 # Create your views here.
 
@@ -29,8 +33,8 @@ class BlogDetailView(DetailView):
 
     def get(self, request, pk):
         blog_post = BlogPost.objects.get(pk=pk)
-        comments = blog_post.comments.all()
-        print(comments)
+        comments = blog_post.comments.filter(
+            is_deleted=False, post=blog_post).order_by('-post_date')
         return render(request, 'blog/blog_detail.html', {
             "blog_post": blog_post,
             "comments": comments,
@@ -38,16 +42,49 @@ class BlogDetailView(DetailView):
 
         })
 
-    def post(self, request, pk):
-        blog_post = get_object_or_404(BlogPost, pk=pk)
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            # sets the comment post attribute to this Instance of the blogPost
-            comment.post = blog_post
-            comment.save()
-            return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
+    # def post(self, request, pk):
+    #     blog_post = get_object_or_404(BlogPost, pk=pk)
+    #     comment_form = CommentForm(request.POST)
+    #     if comment_form.is_valid():
+    #         comment = comment_form.save(commit=False)
+    #         # sets the comment post attribute to this Instance of the blogPost
+    #         comment.post = blog_post
+    #         comment.user = request.user
+    #         comment.save()
+    #         return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
 
+    #     else:
+    #         return render(request, 'blog/blog_detail.html', {
+    #             "blog_post": blog_post,
+    #             "comment_form": comment_form
+
+    #         })
+
+    def post(self, request, pk):
+        blog_post = BlogPost.objects.get(pk=pk)
+        resp = {}
+        if blog_post:
+            comment_form = CommentForm(request.POST)
+            comment = request.POST.get("comment", None)
+            # comment = request.POST.get("description", None)
+            print(comment)
+
+            post_comment = Comment.objects.create(
+                user=self.request.user, description=comment)
+            post_comment.post = blog_post
+            print(post_comment.description)
+            print(post_comment.user.username)
+            print(post_comment.post_date)
+
+            resp["description"] = post_comment.description
+            resp["post_date"] = post_comment.post_date
+            resp["get_username"] = post_comment.user.username
+            post_comment.save()
+            print(resp)
+
+            print("Got Here")
+            return JsonResponse(resp, content_type="application/json")
+            # return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
         else:
             return render(request, 'blog/blog_detail.html', {
                 "blog_post": blog_post,
@@ -55,36 +92,34 @@ class BlogDetailView(DetailView):
 
             })
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(BlogDetailView, self).get_context_data(**kwargs)
-    #     context["comment_form"] = CommentForm()
-    #     return context
 
+# class BlogTemplateView(View):
+#     template_name = "blog/blog_detail.html"
 
-class BlogTemplateView(View):
-    template_name = "blog/blog_detail.html"
+#     def get_context_data(self, **kwargs):
+#         context = super(BlogTemplateView, self).get_context_data(**kwargs)
+#         blog_posts = BlogPost.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super(BlogTemplateView, self).get_context_data(**kwargs)
-        blog_posts = BlogPost.objects.all()
-        print(blog_posts)
+#         context.update(list(blog_posts))
 
-        context.update(list(blog_posts))
-
-        context["blog_post"] = get_object_or_404(
-            BlogPost, pk=self.kwargs["pk"])
-        return context
+#         context["blog_post"] = get_object_or_404(
+#             BlogPost, pk=self.kwargs["pk"])
+#         print(context["blog_posts"])
+#         print("Here")
+#         print(context["blog_post"])
+#         return context
 
 
 class BlogListView(ListView):
     template_name = 'blog/blog_list.html'
     model = BlogPost
     paginate_by = 5
-    ordering = ['post_date']
+    ordering = ['-post_date']
     context_object_name = 'blog_list'
 
     def get_queryset(self):
         return super(BlogListView, self).get_queryset()
+        # return BlogPost.available_posts.all()
 
 
 class BloggersListView(ListView):
@@ -93,26 +128,79 @@ class BloggersListView(ListView):
     context_object_name = 'bloggers_list'
 
 
-class BloggerDetailView(DetailView):
-    template_name = 'blog/blogger_detail.html'
-    model = Bloggers
-    context_object_name = 'single_blogger'
+# class BloggerDetailView(DetailView):
+#     template_name = 'blog/blogger_detail.html'
+#     model = Bloggers
+#     context_object_name = 'single_blogger'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        single_blogger = get_object_or_404(Bloggers, pk=self.kwargs['pk'])
-        user_form = UserUpdateForm()
-        profile_form = ProfileForm()
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         single_blogger = get_object_or_404(Bloggers, pk=self.kwargs['pk'])
+#         user_profile = get_object_or_404(Profile, user=self.request.user)
+#         user_form = UserUpdateForm(instance=self.request.user)
+#         profile_form = ProfileForm(instance=user_profile)
 
+#         if self.request.method == "POST":
+#             profile_form = ProfileForm(
+#                 self.request.POST, self.request.FILES, instance=user_profile)
+#             user_form = UserUpdateForm(
+#                 self.request.POST, instance=self.request.user)
+
+#             if profile_form.is_valid() and user_form.is_valid():
+#                 main_user = user_form.save()
+#                 main_profile = profile_form.save(False)
+#                 main_user.user = main_profile
+#                 main_user.save()
+
+#                 return HttpResponseRedirect(reverse('blogger', args=[self.kwargs["pk"]]))
+#         else:
+
+#             context["single_blogger"] = single_blogger
+#             context["user_form"] = user_form
+#             context["profile_form"] = profile_form
+#             context["user_profile"] = user_profile
+#             return context
+class BloggerDetailView(LoginRequiredMixin, View):
+
+    # def post(self, request, pk, *args, **kwargs):
+    #     single_blogger = User.objects.get(pk=pk)
+    #     user_profile = get_object_or_404(Profile, user=single_blogger)
+
+    #     user_form = UserUpdateForm(
+    #         request.POST, instance=request.user)
+    #     profile_form = ProfileForm(
+    #         request.POST, request.FILES, instance=user_profile)
+
+    #     if profile_form.is_valid() and user_form.is_valid():
+    #         user_form.save()
+    #         profile_form.save()
+
+    #         return redirect(reverse('blogger', args=[pk]))
+
+    # else:
+    #     return render(request, "blog/blogger_detail.html",
+    #                   {
+    #                       "user_form": user_form,
+    #                       "profile_form": profile_form
+    #                   })
+
+    def get(self, request, pk):
+        single_blogger = User.objects.get(pk=pk)
+        user_profile = get_object_or_404(Profile, user=single_blogger)
+        profile_form = ProfileForm(instance=user_profile)
+        user_form = UserUpdateForm(instance=request.user)
+
+        context = {}
         context["single_blogger"] = single_blogger
-
         context["user_form"] = user_form
         context["profile_form"] = profile_form
-        return context
+        context["user_profile"] = user_profile
+
+        return render(request, "blog/blogger_detail.html", context)
 
 
 def home(request):
-    blog_posts = BlogPost.objects.all()
+    blog_posts = BlogPost.available_posts.all()
     blog_posts_count = blog_posts.count()
 
     return render(request, 'blog/index.html', {
@@ -122,7 +210,9 @@ def home(request):
 
 
 def index(request):
-    blog_posts = BlogPost.objects.all()
+    blog_posts = BlogPost.available_posts.all()
+    print(blog_posts)
+
     blog_posts_count = blog_posts.count()
     all_bloggers = Bloggers.objects.all().count()
 
@@ -133,28 +223,128 @@ def index(request):
     })
 
 
-# @login_required(login_url='accounts/login')
-def update_profile(request):
+class ChangePasswordView(PasswordChangeView):
+    template_name = "blog/change_password.html"
+    success_url = reverse_lazy('')
 
-    user_profile = get_object_or_404(Profile, user=request.user)
+
+def edit_profile(request, pk):
+    single_blogger = User.objects.get(pk=pk)
+    user_profile = get_object_or_404(Profile, user=single_blogger)
+    if request.method == "POST":
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(
+            request.POST, request.FILES, instance=user_profile)
+        print("Here")
+
+        if user_form.is_valid() and profile_form.is_valid():
+            print("here 3")
+            main_user = user_form.save()
+            main_profile = profile_form.save(False)
+            main_user.user = main_profile
+            main_user.save()
+            print('Here')
+        return HttpResponseRedirect(reverse('blog:blogger', args=[pk]))
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileForm(
+            instance=user_profile)
+        context = {}
+        context["single_blogger"] = single_blogger
+        context["user_form"] = user_form
+        context["profile_form"] = profile_form
+        context["user_profile"] = user_profile
+
+        return render(request, "blog/edit_profile.html", context)
+
+
+def create_post(request):
 
     if request.method == "POST":
-        profile_form = ProfileForm(
-            request.POST, request.FILES, instance=request.user)
-        user_form = UserUpdateForm(request.POST, instance=user_profile)
+        title = request.POST["title"]
+        description = request.POST["description"]
+        author = request.user
 
-        if profile_form.is_valid() and user_form.is_valid():
-            profile_form.save()
-            user_form.save()
-            return HttpResponseRedirect("profiles/")
+        new_post = BlogPost.objects.create(
+            title=title, description=description, author=author)
+        new_post.save()
 
-        else:
+        return redirect('blog-list')
 
-            user_form = UserUpdateForm()
-            profile_form = ProfileForm()
-            print(user_form)
-            return render(request, "blog/blogger_detail.html", {
-                "user_form": user_form,
-                "profile_form": profile_form,
-                "user_profile": user_profile
-            })
+    else:
+        post_create_form = BlogPostCreateForm()
+
+        context = {
+            "post_form": post_create_form
+        }
+    return render(request, "blog/create_post.html", context)
+
+
+def edit_post(request, pk):
+    if request.method == "POST":
+        blog_post = get_object_or_404(BlogPost, pk=pk)
+
+        post_create_form = BlogPostCreateForm(request.POST, instance=blog_post)
+        if post_create_form.is_valid():
+            post_create_form.save()
+
+            return redirect(reverse('blog:blog-detail', args=[pk]))
+    else:
+        blog_post = get_object_or_404(BlogPost, pk=pk)
+        post_create_form = BlogPostCreateForm(request.GET)
+        context = {
+            "post_form": post_create_form,
+            "blog_post": blog_post
+        }
+        return render(request, "blog/edit_post.html", context)
+
+
+@login_required
+def delete_post(request, pk):
+    post = get_object_or_404(BlogPost, pk=pk)
+    post.is_deleted = True
+    post.save()
+
+    # post.save()
+    return redirect(reverse('blog:blog-detail', args=[pk]))
+
+
+@login_required
+def un_delete_post(request, pk):
+
+    post = get_object_or_404(BlogPost, pk=pk)
+    post.is_deleted = False
+    post.save()
+    return redirect(reverse('blog:blog-detail', args=[pk]))
+
+
+@login_required
+def delete_comment(request, pk, comment_pk):
+    post = get_object_or_404(BlogPost, pk=pk)
+    comment = Comment.objects.get(post__pk=pk, pk=comment_pk)
+    if request.user.id == post.author.user.id:
+        comment.is_deleted = not comment.is_deleted
+        comment.save()
+
+    return redirect(reverse('blog:blog-detail', args=[pk]))
+
+
+@login_required
+def save_comment(request, post_pk):
+    blog_post = BlogPost.objects.get(pk=post_pk)
+
+    if request.method == "POST":
+        comment = request.POST.get('comment', None)
+        data = request.POST.get("success")
+        error = request.POST.get("error")
+
+        print('Got Here')
+
+        post_comment = Comment.objects.create(description=comment)
+        post_comment.user = request.user,
+        post_comment.post = blog_post
+        post_comment.save()
+        return JsonResponse(data['success'], safe=False)
+
+    else:
+        return JsonResponse(error["error"], safe=False)

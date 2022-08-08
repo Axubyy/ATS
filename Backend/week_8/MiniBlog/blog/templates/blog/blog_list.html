@@ -1,15 +1,38 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1> List of Post</h1>
+  <h1> All  Posts</h1>
   {% if blog_list %}
   <ul>
     {% for blog in blog_list %}
+      {% if not blog.is_deleted %}
       <li>
-        <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{blog.user}})
+         <div style="margin:30px">
+      Post Title: <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> 
+        <p>Author: {{blog.author.user.username}}</p>
+        {% if blog.author.user.id == user.id %}
+        <a href="{% url 'blog:edit-post' blog.pk %}" class="btn btn-primary">Edit Post</a>
+        <a href="{% url 'blog:delete-post' blog.pk %}" class="btn btn-dark">Archive Post</a>
+        </div>
       </li>
+        {% endif %}
+          
+      {% else %}
+            {% if blog.author.user.id == user.id %}
+        <li>
+          <div style="margin:30px">
+            Post Title: <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> 
+          <p>Author: {{blog.author.user.username}}</p>
+          <a href="{% url 'blog:edit-post' blog.pk %}" class="btn btn-primary">Edit Post</a>
+          <a href="{% url 'blog:un-delete-post' blog.pk %}" class="btn btn-dark">Un-Archive Post</a>
+          </div>
+          </li>
+            {% endif %}
+              {% endif %}
+        
     {% endfor %}
   </ul>
+
   {% else %}
     <p>There are no books in the library.</p>
   {% endif %}

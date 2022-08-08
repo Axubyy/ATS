@@ -1,4 +1,4 @@
-{% extends 'base_generic.html' %}
+{% comment %} {% extends 'base_generic.html' %}
 
 {% load static %}
 
@@ -16,7 +16,28 @@
   background-color: #ffe1bf;
   transform: rotateZ(-5deg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="">
+    <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <div class="form-control">
+                   <label for="email">Your First Name</label>
+                    {{ user_form.first_name}}
+                </div>
+                <div class="form-control">
+                  <label for="email">Your Last Name</label>
+                    {{ user_form.last_name}}
+                </div>
+                <div class="form-control">
+                  <label for="email">Your Email</label>
+                    {{ user_form.email}}
+                </div>
+                <div class="form-control">
+                  <label for="email">Your  Profile Photo</label>
+                    {{ profile_form.as_p}}
+                </div>
+                
+                <button type="submit"> Update Profile</button> 
+            </form>
 
   
   <small><p><a href="{% url 'profile-detail' %}">Update Proile</a></p></small>
-{% endblock content %}
+{% endblock content %} {% endcomment %}

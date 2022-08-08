@@ -6,7 +6,9 @@
   <ul>
     {% for blogger in bloggers_list %}
       <li>
-        <a href="{{ blogger.get_absolute_url }}">{{ blogger.user }} {{ blogger.user}}</a> ({{blogger}})
+        <a href="{{ blogger.get_absolute_url }}">{{ blogger.user }} {{ blogger.user}}</a> ({{blogger.user.username}})
+        {{blogger.user.firstname}}
+        {{blogger.user.lastname}}
       </li>
     {% endfor %}
   </ul>

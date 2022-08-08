@@ -1,0 +1,14 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block content %}
+<h4>Create A New Post</h4>
+    <form action="{% url "blog:create-post" %}" method="POST">
+        {% csrf_token %}
+        {{ post_form.as_p}}
+        <button class="btn btn-dark btn-lg">Create This Post</button>
+
+    </form>
+
+{% endblock content %}

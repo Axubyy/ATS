@@ -1,0 +1,52 @@
+{% extends 'base_generic.html' %}
+
+
+{% load static %}
+
+{% block content %}
+
+<div style="text-align:center" class="row my-3 p-3">
+    <div>
+        <img src="{{ user_profile.image.url }}" alt="Profile picture"  style="width: 2rem;
+  height: 10rem;
+  width:10rem;
+  object-fit: scale-down;
+  object-position: top;
+  border: 5px solid white;
+  border-radius: 3000px;
+  background-color: #ffe1bf;
+  transform: rotateZ(-5deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="Your Profile Photo">
+
+  </div>
+     <form action="{% url "blog:edit-profile"  single_blogger.pk %}" method="POST">
+            {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-control">
+                   <label for="email">Your UserName</label>
+                    {{ user_form.username}}
+                </div>
+                <div class="form-control">
+                  <label for="email">Your Last Name</label>
+                    {{ user_form.last_name}}
+                </div>
+                <div class="form-control">
+                  <label for="email">Your Email</label>
+                    {{ user_form.email}}
+                </div>
+                <div class="form-control">
+                  <label for="image">Your  Profile Photo</label>
+                    {{ profile_form.as_p}}
+                </div>
+                
+                </div>
+                <button type="submit"  class="btn btn-dark btn-lg"  style="margin-top:30px" > Update Profile</button> 
+            </form>
+            
+            <div class="form-group">
+                         <hr>
+                        <a href="{% url "blog:change-password" %}" >Change Password</a>
+                       
+                </div>
+  </div>
+{% endblock content %}

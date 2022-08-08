@@ -3,12 +3,8 @@
 {% load static %}
 
 {% block content %}
- <h1>Name: {{single_blogger}}</h1>
-
-  <p><strong> Bio Info:</strong> {{ single_blogger.first_name  }} </a></p> 
-  <small><p>{{ single_blogger.bio_info}}</p></small>
-   <div>
-        <img src="{{ user_profile.image.url }}" alt="Profile picture"  style="width: 2rem;
+<div>
+  <img src="{{ user_profile.image.url }}" alt="Profile picture"  style="width: 2rem;
   height: 10rem;
   width:10rem;
   object-fit: scale-down;
@@ -17,20 +13,16 @@
   border-radius: 3000px;
   background-color: #ffe1bf;
   transform: rotateZ(-5deg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="">
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="Your Profile Photo">
+ <h1>Name: {{single_blogger.username}}</h1>
 
-  </div>
-
-  <div>
-     <form action="{% url 'blog:update-profile' single_blogger.pk %}" method="POST">
-                {% csrf_token %}
-                    {{ user_form.as_p}}
-                    {{ profile_form.as_p}}
+  <p><strong> Bio Info:</strong> {{ single_blogger.username  }} </a></p> 
+  <small><p>{{ single_blogger.bio_info}}</p></small>
   
-                <button type="submit"> Update Profile</button> 
-            </form>
-  </div>
-    
+  {% if single_blogger.username ==  user.username %}
+     <a href="{% url 'blog:edit-profile'  single_blogger.id  %}" class="btn btn-primary">Edit Profile</a>
+    </div>
+  {% endif %}
   {% comment %} <small><p><a href="{% url 'profile-detail' single_blogger.pk %}">Update Proile</a></p></small> {% endcomment %}
 {% endblock content %}
 

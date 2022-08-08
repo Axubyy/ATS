@@ -7,8 +7,25 @@
 
 <div class="content_container">
    <strong><h1>{{blog_post.title}}</h1></strong> 
-        <p>{{ blog_post.post_date}}</p>
+        <p>{{ blog_post.post_date}}</p>        
+    
     <strong>By {{ blog_post.author}}</strong>
+    
+    {% if user.is_authenticated %}
+     {% if blog_post.author.user.id == user.id %}
+       <a href="{% url 'blog:edit-post' blog_post.id %}" class="btn btn-primary">Edit Post</a>
+       
+       {% if not blog_post.is_deleted %}
+         <a href="{% url 'blog:edit-post' blog_post.id %}" class="btn btn-primary">Archive Post</a>
+         {% else %}
+          <a href="{% url 'blog:un-delete-post' blog_post.id %}" class="btn btn-primary">Un-Archive Post</a>
+       {% endif %}
+        
+      
+    {% endif %}
+        {% else %}
+    {% endif %}
+
     <div class="post_description">
         {{ blog_post.description }}
     </div>
@@ -19,10 +36,21 @@
 <div class="comment">
     <div class="previous_comments">
         <h3 style="text-align:center">Post Comments</h3>
-        {% for comment in comments  %}
-            <p>{{ comment.description}}</p>
-            <p>{{ comment.post_date}}</p>
-           <small><p> By {{ comment.user.first_name }}</p></small> 
+        <hr >
+        <div id="main-comment">
+            {% for commenter in comments  %}
+            <p >{{ commenter.description}}</p>
+            <p>{{ commenter.post_date}}</p>
+            <small><p> By {{ commenter.get_username }}</p></small> 
+        </div>
+        <div class="next-comment">
+
+        </div>
+        {% if blog_post.author.user.id == user.id %}
+            <a href="{% url 'blog:delete-comment'  blog_post.pk commenter.pk %}" class="btn btn-primary">Delete Comment</a>
+        {% endif %} 
+            
+        
             <hr>
         {% endfor %}
         
@@ -33,29 +61,67 @@
 
 {% if user.is_authenticated %}
 <div style="margin:20px;height:20px">
-   <form  method="POST"  action="{% url "blog:blog-detail" blog_post.pk %}">
+   <form id="form_id" method="POST"  >
+   {% comment %} action="{% url "blog:blog-detail" blog_post.pk %}" {% endcomment %}
         {% csrf_token %}        
-            {% comment %} {{ comment_form}} {% endcomment %}
         {% for comment  in comment_form  %}
             <div>
-                {{ comment.label_tag}}
-                    {{comment}}
-                    {{comment.errors}}
+                <p>{{ comment.label_tag}} </p>
+                    <p id="comment_id">
+                        {{comment}}
+                    </p>
+                    <p>{{comment.description}}</p>
+                    <p>{{comment.errors}}</p>
             </div>
             {% endfor %} 
-        <button type="submit">Save Comment</button>
+        <button type="submit" class="btn btn-primary " >Save Comment</button>
     </form>
 
 </div>
  
     {% else %}
     <div style="margin:40px;padding:20px;">
-        <p><a href="{% url "login" %}"> Login</a> to Comment </p>
+        <p><a href="{% url "login" %}" class="btn btn-primary" > Login</a> to Comment </p>
     </div>
     
 {% endif %}
     
   
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js" 
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+            crossorigin="anonymous"></script>
+<script type="text/javascript" charset=utf-8>
+    $(document).on('submit','#form_id',function(e){
+        e.preventDefault();
 
+        console.log('Javascript is working')
+
+        $.ajax({
+            type:'POST',
+            url:'{{ blog_post.get_absolute_url }}',
+            data:
+            {
+                comment: $("#id_description").val(),
+                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+        success: function(json){
+            console.log(json.description)
+                console.log("successfully fetched response");
+                $("#main-comment").prepend(
+                    '<div class="main-comment">'+
+                    '<p>'+ json.description + '</p>'+
+                    '<p>'+ json.post_date + '</p>'+
+                    '<small><p>'+ 'By ' + '' + json.get_username +'</p></small>' 
+                    + '<a href="'${"{{ commenter.get_absolute_url }}"} class="btn btn-primary"> Delete Comment</a>'
+                        +'</div>' 
+                )},
+                error: function(xhr,errmsg,err){
+                    console.log(xhr.status + ":" +xhr.responseText)
+                }
+            })
+
+            
+        });
+  </script>
 {% endblock content %}
