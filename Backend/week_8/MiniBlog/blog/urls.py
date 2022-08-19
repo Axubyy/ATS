@@ -20,6 +20,7 @@ urlpatterns = [
     path('blogger/<int:pk>', views.BloggerDetailView.as_view(), name='blogger'),
     path('change-password/', views.ChangePasswordView.as_view(),
          name="change-password"),
+    path('like/<int:pk>', views.like_post_view, name="like-post")
     #     path('save-comment/<int:post_pk>', views.save_comment, name="save-comment")
 
 

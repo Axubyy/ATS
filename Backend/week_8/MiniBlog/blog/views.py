@@ -1,3 +1,4 @@
+from urllib import request
 from django.forms import PasswordInput
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -32,11 +33,29 @@ class BlogDetailView(DetailView):
     # context_object_name = 'blog_post'
 
     def get(self, request, pk):
+        liked = False
         blog_post = BlogPost.objects.get(pk=pk)
         comments = blog_post.comments.filter(
             is_deleted=False, post=blog_post).order_by('-post_date')
+
+        # blog_post = get_object_or_404(
+        #     BlogPost, pk=post_id)
+        total_likes = blog_post.total_likes()
+        if request.user.is_authenticated:
+            if blog_post.likes.filter(id=request.user.id).exists():
+                blog_post.likes.remove(request.user)
+                liked = False
+            else:
+                blog_post.likes.add(request.user)
+                liked = True
+        else:
+            pass
+        post_likers = blog_post.likes.all()
         return render(request, 'blog/blog_detail.html', {
             "blog_post": blog_post,
+            "total_likes": total_likes,
+            "liked": liked,
+            "post_likers": post_likers,
             "comments": comments,
             "comment_form": CommentForm()
 
@@ -65,32 +84,33 @@ class BlogDetailView(DetailView):
         resp = {}
         if blog_post:
             comment_form = CommentForm(request.POST)
-            comment = request.POST.get("comment", None)
+            comment = request.POST.get("comment", '')
             # comment = request.POST.get("description", None)
             print(comment)
-
             post_comment = Comment.objects.create(
                 user=self.request.user, description=comment)
             post_comment.post = blog_post
             print(post_comment.description)
             print(post_comment.user.username)
-            print(post_comment.post_date)
+            print(post_comment.pk)
 
             resp["description"] = post_comment.description
+            resp["pk"] = post_comment.get_absolute_url()
             resp["post_date"] = post_comment.post_date
             resp["get_username"] = post_comment.user.username
             post_comment.save()
             print(resp)
+            return JsonResponse(resp, content_type="application/json")
 
             print("Got Here")
-            return JsonResponse(resp, content_type="application/json")
-            # return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
-        else:
-            return render(request, 'blog/blog_detail.html', {
-                "blog_post": blog_post,
-                "comment_form": comment_form
+        return JsonResponse(resp, content_type="application/json")
+        return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
+        # else:
+        #     return render(request, 'blog/blog_detail.html', {
+        #         "blog_post": blog_post,
+        #         "comment_form": comment_form
 
-            })
+        #     })
 
 
 # class BlogTemplateView(View):
@@ -348,3 +368,42 @@ def save_comment(request, post_pk):
 
     else:
         return JsonResponse(error["error"], safe=False)
+
+
+def like_post_view(request, pk):
+
+    if request.method == "POST":
+        user = request.user
+        post_id = request.POST.get("post_id")
+        liked = False
+        blog_post = get_object_or_404(BlogPost, pk=post_id)
+        print("------", "now", blog_post)
+
+        total_likes = blog_post.total_likes() or blog_post.likes.all().count()
+        if blog_post.likes.filter(id=request.user.id).exists() or user in blog_post.likes.all():
+            blog_post.likes.remove(request.user)
+            liked = False
+        else:
+            blog_post.likes.add(request.user)
+            liked = True
+        users_that_liked_post = blog_post.likes.all()
+        resp = {
+            "total_likes": total_likes,
+            "liked": liked
+        }
+        print(resp)
+        return JsonResponse(resp, content_type="application/json")
+    else:
+        return HttpResponseRedirect(reverse('blog:blog-detail', args=[pk]))
+
+
+@login_required
+def SearchView(request):
+    if request.method == 'POST':
+        kerko = request.POST.get('search')
+        print(kerko)
+        results = User.objects.filter(username__contains=kerko)
+        context = {
+            'results': results
+        }
+        return render(request, 'users/search_result.html', context)

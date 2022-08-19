@@ -1,0 +1,77 @@
+<div class="main">
+
+</div>
+<div class="container">
+  <div id="load"></div>
+</div>
+
+<style>
+  .loader{
+    position: relative;
+
+  }
+  .loader::before,
+  .loader::after{
+    content:"";
+    width:1.8em;
+    height:1.8em;
+    position:absolute;
+  }
+  .loader::before{
+    background:lightcoral;
+    left:0;
+    transform:translate(10px);
+
+  }
+  .loader::after{
+    background:lightgreen;
+    right:0;
+    transform:translate(-10px);
+    animation: moveRight 1s ease infinite;
+  }
+
+  @keyframes moveRight {
+    0%{
+      transform:translate(-10px);
+    }
+    50%{
+transform:translate(10px);
+background:rgba(144,238,144,.692);
+    }
+    100%{
+      transform:translate(-10px);
+    }
+    
+  }
+
+  @keyframes moveLeft {
+    0%{
+      transform:translate(10px);
+    }
+    50%{
+    transform:translate(-10px);
+    }
+    100%{
+      transform:translate(10px);
+    }
+    
+    }
+
+</style>
+<script>
+  
+  document.querySelector('#before_animate').style.display = 'none';
+  document.getElementById('load_animation').classList.add('loader')
+  setTimeout(()=>{
+    
+  document.getElementById('load_animation').classList.remove('loader')
+  document.querySelector('#before_animate').style.display = 'block';
+  },4000)
+</script>
+<script>document.querySelector('.main').style.display = 'none';
+  document.getElementById('load').classList.add('loader')
+setTimeout(()=>{
+    
+  document.getElementById('load').classList.remove('loader')
+  document.querySelector('.main').style.display = 'block';
+  },4000)</script>

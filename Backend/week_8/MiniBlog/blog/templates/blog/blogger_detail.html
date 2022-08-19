@@ -4,6 +4,7 @@
 
 {% block content %}
 <div>
+  {% if user_profile.image %}
   <img src="{{ user_profile.image.url }}" alt="Profile picture"  style="width: 2rem;
   height: 10rem;
   width:10rem;
@@ -14,10 +15,13 @@
   background-color: #ffe1bf;
   transform: rotateZ(-5deg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);"  alt="Your Profile Photo">
+  {% else %}
+  
+  {% endif %}
  <h1>Name: {{single_blogger.username}}</h1>
 
-  <p><strong> Bio Info:</strong> {{ single_blogger.username  }} </a></p> 
-  <small><p>{{ single_blogger.bio_info}}</p></small>
+  <p><strong> Bio Info:</strong> {{ single_blogger.username  }}  {{ single_blogger.first_name  }}  {{ single_blogger.last_name  }}</a></p> 
+  <small><p>{{ single_blogger.bio_info}} {{single_blogger.username}}</p></small>
   
   {% if single_blogger.username ==  user.username %}
      <a href="{% url 'blog:edit-profile'  single_blogger.id  %}" class="btn btn-primary">Edit Profile</a>

@@ -1,14 +1,21 @@
 from django.shortcuts import render
-from django.views import View
-
-# Create your views here.
 
 
-# class Portfolio(View):
-#     def get():
-#         pass
-
-#     def post():
-
-def portfolioView(request):
+def index(request):
     return render(request, "portfolio/index.html")
+
+
+def works(request):
+    return render(request, "portfolio/works.html")
+
+
+def contact(request):
+    return render(request, "portfolio/contact.html")
+
+
+def about(request):
+    return render(request, "portfolio/about.html")
+
+
+def components(request):
+    return render(request, "portfolio/components.html")

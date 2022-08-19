@@ -11,19 +11,20 @@ import random
 
 class Tic_Tac_Toe:
     count = 0
+
     def __init__(self) -> None:
         self.board = [
-            [0,0,0],
-            [0,0,0],
-            [0,0,0]
-                    ]
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ]
 
     def show_board(self):
         for row in self.board:
             for item in row:
                 print(item, end=" ")
             print()
-            
+
     def get_random_first_player(self):
         return random.randint(0, 1)
 
@@ -98,7 +99,8 @@ class Tic_Tac_Toe:
 
             self.show_board()
 
-            row, col = list(map(int, input("Enter row and column numbers to fix spot (two numbers with space(s) in between): ").split()))
+            row, col = list(map(int, input(
+                "Enter row and column numbers to fix spot (two numbers with space(s) in between): ").split()))
             print()
             self.fix_position(row - 1, col - 1, player)
 
@@ -119,10 +121,6 @@ class Tic_Tac_Toe:
         # showing the final view of board
         print()
         self.show_board()
-
-    
- 
-
 
 
 board = Tic_Tac_Toe()

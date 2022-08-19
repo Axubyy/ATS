@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from PIL import Image
 
 
 # Create your models here
@@ -45,9 +44,13 @@ class BlogPost(models.Model):
         Bloggers, on_delete=models.CASCADE, related_name="author", null=True)
     description = models.TextField()
     is_deleted = models.BooleanField(default=False)
+    likes = models.ManyToManyField(User, related_name='blog_posts')
 
     objects = models.Manager()
     available_posts = AvailableBlogs()
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self) -> str:
         return f"{self.title} {self.author}"
@@ -89,7 +92,7 @@ class Comment(models.Model):
         return self.user
 
     def get_absolute_url(self):
-        return reverse("blog:delete-comment", kwargs={"pk": self.post.pk, "comment_pk": self.pk})
+        return reverse("blog:delete-comment", args=[self.post.pk, self.pk])
 
     class Meta:
         ordering = ['post_date']

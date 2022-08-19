@@ -1,25 +1,30 @@
-# import csv
-# with open('user_data.csv', 'r') as file:
-
-#     reader = csv.reader(file)
-#     print(reader)
-# for row in reader:
-#     # print(row)
-
-# data_list = [["SN", "Name", "Contribution"],
-#              [1, "Linus Torvalds", "Linux Kernel"],
-#              [2, "Tim Berners-Lee", "World Wide Web"],
-#              [3, "Guido van Rossum", "Python Programming"]]
-
-# # with open("new_file.csv", "w") as file:
-
-# with open('innovators.csv', 'w',) as file:
-#     writer = csv.writer(file)
-#     print(writer)
-#     writer.write
-#     writer.writerows(data_list)
-
+import pandas
 import csv
+# with open('./user_data.csv', 'r') as file:
+#     reader = csv.reader(file)
+#     readerDict = csv.DictReader(file, delimiter=',')
+#     line_count = 0
+#     for row in reader:
+#         if line_count == 0:
+#             print(f"This is for the {row[0]}  and {row[1]}")
+#             line_count += 1
+#         else:
+#             # for row2 in readerDict:
+#             print(f"Welcome {row[0]} {row[1]} to our office today")
+#     for row2 in readerDict:
+#         print(row2)
+#         sentence = f"{row2['firstname']} is the boss of {row2['lastname']}"
+#         print(sentence)
+#         print(row2["firstname"])
+
+#     print(f" This guy {row2} is his first name")
+
+data_list = [["SN", "Name", "Contribution"],
+             [1, "Linus Torvalds", "Linux Kernel"],
+             [2, "Tim Berners-Lee", "World Wide Web"],
+             [3, "Guido van Rossum", "Python Programming"]
+             ]
+
 
 # csv header
 fieldnames = ['name', 'area', 'country_code2', 'country_code3']
@@ -41,6 +46,16 @@ rows = [
 ]
 
 with open('countries.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.DictWriter(f, fieldnames=fieldnames)
+    writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter='|')
     writer.writeheader()
     writer.writerows(rows)
+
+
+# with open('innovators.csv', 'w',) as file:
+#     writer = csv.writer(file, delimiter="|")
+#     print(writer)
+#     # writer.write()
+#     writer.writerows(data_list)
+df = pandas.read_csv('countries.csv')
+print(df)
+# df.to_csv('new_countries.csv')
