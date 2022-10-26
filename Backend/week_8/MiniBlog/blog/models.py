@@ -32,6 +32,13 @@ class Bloggers(models.Model):
         return reverse("blog:blogger", kwargs={"pk": self.pk})
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50, null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class AvailableBlogs(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
@@ -45,6 +52,7 @@ class BlogPost(models.Model):
     description = models.TextField()
     is_deleted = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name='blog_posts')
+    tags = models.ManyToManyField(Tag, related_name='tag')
 
     objects = models.Manager()
     available_posts = AvailableBlogs()
@@ -59,7 +67,11 @@ class BlogPost(models.Model):
         return reverse("blog:blog-detail", kwargs={"pk": self.pk})
 
     class Meta:
-        ordering = ['post_date']
+        ordering = ['-post_date']
+
+    @property
+    def post_tags(self):
+        return self.tags.all()
 
 
 @receiver(post_save, sender=User)
@@ -89,7 +101,7 @@ class Comment(models.Model):
         return f"{self.user}"
 
     def get_username(self):
-        return self.user
+        return self.user.username
 
     def get_absolute_url(self):
         return reverse("blog:delete-comment", args=[self.post.pk, self.pk])

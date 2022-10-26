@@ -1,7 +1,8 @@
+from re import L
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import BlogPost, Bloggers, Comment, Profile, User
+from .models import BlogPost, Bloggers, Comment, Profile, Tag, User
 
 # Register your models here
 
@@ -26,7 +27,12 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ["user", "image"]
 
 
+class TagAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+
+
 admin.site.register(BlogPost, BlogPostAdmin)
 admin.site.register(Bloggers)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Tag, TagAdmin)

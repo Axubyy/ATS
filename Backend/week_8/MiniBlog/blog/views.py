@@ -1,5 +1,3 @@
-from urllib import request
-from django.forms import PasswordInput
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.base import TemplateView
@@ -231,7 +229,6 @@ def home(request):
 
 def index(request):
     blog_posts = BlogPost.available_posts.all()
-    print(blog_posts)
 
     blog_posts_count = blog_posts.count()
     all_bloggers = Bloggers.objects.all().count()
@@ -279,11 +276,13 @@ def edit_profile(request, pk):
 
 
 def create_post(request):
+    author = request.user
 
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        author = request.user
+        post_create_form = BlogPostCreateForm(request.POST)
+        if post_create_form.is_valid():
+            title = post_create_form.cleaned_data.get("title")
+            description = post_create_form.cleaned_data.get("description")
 
         new_post = BlogPost.objects.create(
             title=title, description=description, author=author)

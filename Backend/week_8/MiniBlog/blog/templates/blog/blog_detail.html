@@ -6,49 +6,57 @@
 
 
 <div class="content_container">
-   <strong><h1>{{blog_post.title}}</h1></strong> 
-        <p>{{ blog_post.post_date}}</p>        
-    
+   <strong><h1>{{blog_post.title}}</h1></strong>
+        <p>{{ blog_post.post_date}}</p>
+       <div>
+
+        {% for tag in blog_post.tags.all %}
+        <small class="tags">{{ tag.name}}</small>
+        {% endfor %}
+
+       </div>
+
+
     <strong>By {{ blog_post.author}}</strong>
-    
+
     {% if user.is_authenticated %}
      {% if blog_post.author.user.id == user.id %}
        <a href="{% url 'blog:edit-post' blog_post.id %}" class="btn btn-primary">Edit Post</a>
-       
+
        {% if not blog_post.is_deleted %}
          <a href="{% url 'blog:edit-post' blog_post.id %}" class="btn btn-primary">Archive Post</a>
          {% else %}
           <a href="{% url 'blog:un-delete-post' blog_post.id %}" class="btn btn-primary">Un-Archive Post</a>
        {% endif %}
-        
-      
+
+
     {% endif %}
         {% else %}
     {% endif %}
 
     <div class="post_description">
         {{ blog_post.description }}
-        
+
     </div>
-    
-    
+
+
         {% comment %} <form action="{% url  'blog:like-post' blog_post.id %}" method="POST">
             {% csrf_token %}
-           
+
            {% if user.is_authenticated %}
             {% if liked %}
             <button type="submit" name="post_id" value="{{ blog_post.id }}" class="btn btn-danger btn-sm">UnLike</button>
         {% else %}
             <button type="submit" name="post_id" value="{{ blog_post.id }}" class="btn btn-primary btn-sm">Like</button>
         {% endif %}
-            
+
             {% else%}
 
             <a href="{% url "blog:login" %}"> Login to Like</a>
 
            {% endif %}
              {% endcomment %}
-            
+
         <form method="POST" id="like_id" >
             {% csrf_token %}
         {% if user.is_authenticated %}
@@ -58,19 +66,19 @@
                 {% comment %} {% else %} {% endcomment %}
             {% comment %} <button type="submit" name="post_id"  like_btn{{ blog_post.id }} id="{{ blog_post.id }}" value="{{ blog_post.id }}" class="btn btn-sm"> Like</button> {% endcomment %}
             {% comment %} {% endif %} {% endcomment %}
-        
+
         {% else%}
 
             <a href="{% url "login" %}"> Login to Like</a>
 
         {% endif %}
-            
+
         </form>
-    
+
     <p id="like_btn"> <big> {% if blog_post.total_likes != 0 %} {{ blog_post.total_likes}} {% endif %}</big> likes</p>
 </div>
-        
-        
+
+
 
 <div class="comment">
     <div class="previous_comments">
@@ -82,19 +90,19 @@
             <p>{{ commenter.post_date}}</p>
             {{commenter.pk}}
             {{blog_post.id}}
-            <small><p> By {{ commenter.get_username }}</p></small> 
+            <small><p> By {{ commenter.get_username }}</p></small>
         </div>
         {% if blog_post.author.user.id == user.id %}
             <a href="{% url 'blog:delete-comment'  blog_post.pk commenter.pk %}" class="btn btn-primary">Delete Comment</a>
-        {% endif %} 
-            
-        
+        {% endif %}
+
+
             <hr>
         {% endfor %}
         <div class="next-comment">
 
         </div>
-        
+
     </div>
 
 
@@ -104,7 +112,7 @@
 <div style="margin:20px;height:20px">
    <form id="form_id" method="POST"  >
    {% comment %} action="{% url "blog:blog-detail" blog_post.pk %}" {% endcomment %}
-        {% csrf_token %}        
+        {% csrf_token %}
         {% for comment  in comment_form  %}
             <div>
                 <p>{{ comment.label_tag}} </p>
@@ -114,23 +122,23 @@
                     <p>{{comment.description}}</p>
                     <p>{{comment.errors}}</p>
             </div>
-            {% endfor %} 
+            {% endfor %}
         <button type="submit" class="btn btn-primary " >  Save Comment</button>
     </form>
 
 </div>
- 
+
     {% else %}
     <div style="margin:40px;padding:20px;">
         <p><a href="{% url "login" %}" class="btn btn-primary" > Login</a> to Comment </p>
     </div>
-    
+
 {% endif %}
-    
-  
+
+
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.js" 
-          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"></script>
 <script type="text/javascript" charset=utf-8>
     $(document).on('submit','#form_id',function(e){
@@ -154,15 +162,15 @@
                     '<div class="main-comment">'+
                     '<p>'+ json.description + '</p>'+
                     '<p>'+ json.post_date + '</p>'+
-                    '<small><p>'+ 'By ' + '' + json.get_username +'</p></small>' 
-                    + '<a href="' + json.pk +'" class="btn btn-primary">' +  "Delete Comment" + '</a></div>' 
+                    '<small><p>'+ 'By ' + '' + json.get_username +'</p></small>'
+                    + '<a href="' + json.pk +'" class="btn btn-primary">' +  "Delete Comment" + '</a></div>'
                 )},
                 error: function(xhr,errmsg,err){
                     console.log(xhr.status + ":" +xhr.responseText)
                 }
-            }) 
+            })
         });
- 
+
  </script>
  <script>
     $(document).on('submit','#like_id',function(e){
@@ -207,8 +215,18 @@
                 }
             })
 
-            
+
         });
+
+
+    const go_back = () => {
+        console.log(document.referrer)
+        if ('referrer' in document) {
+            window.location = document.referrer;
+        } else {
+            window.history.back();
+        }
+    }
   </script>
 {% endblock content %}
 
