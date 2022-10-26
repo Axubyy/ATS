@@ -1,10 +1,10 @@
-
-from django.contrib.auth.password_validation import validate_password
-from ..models import Comment, Profile
-from blog.models import BlogPost, Bloggers, Tag
-from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import serializers
+from blog.models import BlogPost, Bloggers, Tag
+from ..models import Comment, Profile
+from django.contrib.auth.password_validation import validate_password
+t
 
 
 class UserSerializer(serializers.ModelSerializer):
